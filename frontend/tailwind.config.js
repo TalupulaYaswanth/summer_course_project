@@ -7,13 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        darkBg: "#0B0B14",
-        panelBg: "#121224",
-        borderDark: "#23233F",
-        accentPurple: "#6C5CE7",
-        accentPurpleLight: "#A29BFE",
-        accentEmerald: "#00B894",
-        textGray: "#A0AEC0"
+        darkBg: "#F8FAFC",
+        panelBg: "#FFFFFF",
+        borderDark: "#E2E8F0",
+        accentPurple: "#10B981",
+        accentPurpleLight: "#34D399",
+        accentEmerald: "#059669",
+        textGray: "#64748B"
       },
       fontFamily: {
         sans: ['Outfit', 'sans-serif'],

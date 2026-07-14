@@ -9,7 +9,7 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-darkBg text-slate-200">
+      <div className="flex items-center justify-center min-h-screen bg-darkBg text-slate-800">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accentPurple"></div>
       </div>
     );
@@ -28,27 +28,27 @@ export const Navbar: React.FC = () => {
   return (
     <nav className="glass-panel sticky top-0 z-50 px-6 py-4 flex items-center justify-between border-b border-borderDark/60">
       <Link to="/" className="flex items-center gap-2">
-        <span className="text-xl font-bold bg-gradient-to-r from-accentPurpleLight to-accentPurple bg-clip-text text-transparent">
+        <span className="text-xl font-bold bg-gradient-to-r from-accentPurple to-accentEmerald bg-clip-text text-transparent">
           ⚡ CodeExplain
         </span>
       </Link>
       <div className="flex items-center gap-6 text-sm font-medium">
-        <Link to="/" className="text-slate-400 hover:text-slate-200 transition-colors">Home</Link>
+        <Link to="/" className="text-slate-600 hover:text-slate-900 transition-colors">Home</Link>
         {token ? (
           <>
-            <Link to="/dashboard" className="text-slate-400 hover:text-slate-200 transition-colors">Dashboard</Link>
-            <span className="text-slate-500 font-normal">|</span>
-            <span className="text-accentPurpleLight">{user?.email}</span>
+            <Link to="/dashboard" className="text-slate-600 hover:text-slate-900 transition-colors">Dashboard</Link>
+            <span className="text-slate-300 font-normal">|</span>
+            <span className="text-accentEmerald font-semibold">{user?.email}</span>
             <button 
               onClick={logout} 
-              className="px-4 py-1.5 rounded-lg text-slate-300 hover:bg-white/5 border border-slate-700/50 transition-all"
+              className="px-4 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 border border-slate-300 transition-all"
             >
               Sign Out
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="text-slate-400 hover:text-slate-200 transition-colors">Login</Link>
+            <Link to="/login" className="text-slate-600 hover:text-slate-900 transition-colors">Login</Link>
             <Link 
               to="/signup" 
               className="px-4 py-1.5 rounded-lg text-white glass-btn transition-all font-semibold"
@@ -66,7 +66,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <div className="flex flex-col min-h-screen bg-darkBg text-slate-200">
+        <div className="flex flex-col min-h-screen bg-darkBg text-slate-800">
           <Routes>
             {/* Landing page, Login, Signup page layouts inside Browser Router */}
             <Route path="/" element={<LandingPageWrapper />} />
