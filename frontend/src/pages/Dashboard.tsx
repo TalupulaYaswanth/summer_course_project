@@ -5,7 +5,7 @@ import {
   Play, BookOpen, Layers, ShieldAlert, 
   Settings, History, 
   Trash2, Upload, RotateCcw, Copy, Check, FileDown, LogOut,
-  Terminal, Info, Star, Award
+  Terminal, Info, Star, Award, Plus
 } from 'lucide-react';
 import { useAuth, API_BASE_URL } from '../context/AuthContext';
 import { Navbar } from '../App';
@@ -420,6 +420,20 @@ export const Dashboard: React.FC = () => {
         {/* Sidebar Dashboard */}
         <aside className="w-80 border-r border-borderDark/60 bg-[#0E0E1A] shrink-0 flex flex-col justify-between overflow-y-auto">
           <div className="p-5 space-y-6">
+            
+            {/* New Sandbox Action */}
+            <button
+              onClick={() => {
+                setSelectedExplanation(null);
+                setCode(EXAMPLE_CODES.Python);
+                setLanguage("Python");
+                setError(null);
+              }}
+              className="w-full py-3 px-4 rounded-xl text-white font-bold bg-gradient-to-r from-accentPurpleLight to-accentPurple hover:scale-[1.01] hover:shadow-lg hover:shadow-accentPurple/10 transition-all flex items-center justify-center gap-2 border border-accentPurpleLight/20 shadow-md shadow-accentPurple/5"
+            >
+              <Plus className="w-5 h-5 text-white" />
+              <span>New Sandbox</span>
+            </button>
             
             {/* Configuration Settings */}
             <div className="space-y-3">
