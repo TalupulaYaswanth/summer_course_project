@@ -570,6 +570,7 @@ export const Dashboard: React.FC = () => {
                   className="px-3 py-2 rounded-xl bg-[#16162E] border border-borderDark outline-none text-sm font-semibold text-accentPurpleLight"
                 >
                   <option value="gemini-2.5-flash">gemini-2.5-flash</option>
+                  <option value="gemini-1.5-flash">gemini-1.5-flash</option>
                   <option value="gemini-2.5-pro">gemini-2.5-pro (Reasoning)</option>
                 </select>
               </div>
