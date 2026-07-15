@@ -34,6 +34,7 @@ export const Navbar: React.FC = () => {
       </Link>
       <div className="flex items-center gap-6 text-sm font-medium">
         <Link to="/" className="text-slate-600 hover:text-slate-900 transition-colors">Home</Link>
+        <Link to="/workflow" className="text-slate-600 hover:text-slate-900 transition-colors">Workflow</Link>
         {token ? (
           <>
             <Link to="/dashboard" className="text-slate-600 hover:text-slate-900 transition-colors">Dashboard</Link>
@@ -72,6 +73,7 @@ const App: React.FC = () => {
             <Route path="/" element={<LandingPageWrapper />} />
             <Route path="/login" element={<LoginPageWrapper />} />
             <Route path="/signup" element={<SignupPageWrapper />} />
+            <Route path="/workflow" element={<WorkflowPageWrapper />} />
             <Route 
               path="/dashboard" 
               element={
@@ -92,6 +94,7 @@ const App: React.FC = () => {
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPages';
 import Dashboard from './pages/Dashboard';
+import WorkflowPage from './pages/WorkflowPage';
 
 const LandingPageWrapper = () => (
   <>
@@ -111,6 +114,13 @@ const SignupPageWrapper = () => (
   <>
     <Navbar />
     <AuthPage isSignup={true} />
+  </>
+);
+
+const WorkflowPageWrapper = () => (
+  <>
+    <Navbar />
+    <WorkflowPage />
   </>
 );
 
