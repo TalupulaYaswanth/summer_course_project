@@ -1,76 +1,68 @@
-# CodeExplain - How It Works & Architecture Guide
+# CodeExplain - User Interactive Workflow Guide
 
-Welcome to the **CodeExplain Technical Showcase** guide. This document details the visual goals, software architecture, technical data flow chart, and technology stack choices implemented to build this application. Use this document as your quick reference cheat sheet for preparing slides or explaining the project during reviews.
-
----
-
-## 🎯 1. Project Objective & Core Focus
-
-**CodeExplain** is an interactive, full-stack AI-Tutor platform designed to make software engineering concepts accessible to everyone. 
-* **Target Audience**: Student developers, programming beginners, and technical interview candidates.
-* **Core Problem Solved**: Traditional AI interfaces (like generic chat windows) return long, unstructured walls of text that confuse beginners. CodeExplain breaks down code files into specific, manageable categories (Time Complexity rationales, variables lists, dry run timelines, and interactive quizzes) so that learners can digest details step-by-step.
-* **Design Aesthetic**: Premium white/light slate background theme with modern hover effects, shadows, and clean **emerald green (`#10B981`)** details to match the professional design system.
+This document explains step-by-step how a user interacts with the **CodeExplain** application, from first landing on the website to analyzing code, taking quizzes, and managing their saved history.
 
 ---
 
-## 📊 2. System Data Flow Chart
-
-This diagram shows how data travels through the full-stack architecture, from the moment a user inputs code to the final rendering of the interactive tabs.
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as User Client (React)
-    participant API as Backend Gateway (FastAPI)
-    participant DB as Repository (SQLite)
-    participant AI as Cognitive Core (Gemini AI)
-
-    User->>API: 1. Paste Code & Submit Request (Includes JWT Token)
-    Note over API: 2. Decodes JWT & Validates Permissions
-    API->>AI: 3. Forward Code + Language Rules (Enforced Pydantic Schema)
-    Note over AI: 4. Compiles dry run, Big O, refactors, and custom quizzes
-    AI-->>API: 5. Return Structured JSON (Never raw Markdown text)
-    API->>DB: 6. Serialize & Log run payload to history tables
-    DB-->>API: 7. Return database transaction status
-    API-->>User: 8. Send JSON back to client
-    Note over User: 9. React parses fields and renders interactive workspace tabs
-```
+## 🚀 Step 1: Landing Page & Onboarding
+1. **Welcome Screen**: The user arrives at the modern landing page showcasing the key features: line-by-line walk-throughs, Big O complexity analysis, security scanner, auto-generated quizzes, and interview prep.
+2. **Access Control**: The user clicks **Get Started** or **Login** in the top navbar.
+3. **Secure Signup**: 
+   * A new user creates an account by entering an email and password.
+   * If already registered, they log in using their credentials.
+   * *Note: The system hashes their password and issues a secure authorization key (JWT token) so they stay securely signed in.*
 
 ---
 
-## 🛠️ 3. Technology Stack & Design Rationale
-
-Here is the exact technology stack used to build the application and the engineering reasons behind each choice:
-
-### Frontend Layer
-| Technology | Role | "Why We Used It" (Showcase Explanation) |
-| :--- | :--- | :--- |
-| **React (TypeScript)** | UI Framework | Organizes dashboard tabs (Explanations, Metrics, Refactors, Quizzes) into reusable components. TypeScript ensures structured data from the backend fits database interfaces without causing browser crashes. |
-| **Vite** | Build Tool | Fast bundling pipeline that enables Hot Module Replacement (HMR) to speed up frontend development. |
-| **Monaco Editor** | Code Sandbox IDE | The same core engine that powers Visual Studio Code. It provides native code editing features in the browser, including indentation and syntax highlighting. |
-| **Tailwind CSS** | Design Utility | Speeds up custom UI development and ensures consistent theme tokens, border definitions, and responsive grids. |
-| **Framer Motion** | Motion Animation | Drives smooth entrance animations and visual timeline step indicators on the workflow screens. |
-
-### Backend Layer
-| Technology | Role | "Why We Used It" (Showcase Explanation) |
-| :--- | :--- | :--- |
-| **FastAPI (Python)** | API Framework | An asynchronous ASGI framework built for speed. It auto-generates interactive OpenAPI schemas, making it easy to test backend endpoints. |
-| **Uvicorn** | ASGI Server | Lightweight web server that runs our backend application. |
-| **Bcrypt & Passlib** | Encryption | Securely hashes passwords before database saving. |
-| **PyJWT** | Session Authentication | Creates and decodes JSON Web Tokens (JWT) to secure user authentication without maintaining heavy sessions on the server. |
-
-### Database & AI Integration
-| Technology | Role | "Why We Used It" (Showcase Explanation) |
-| :--- | :--- | :--- |
-| **SQLite Database** | Data Storage | An embedded database that requires zero configuration. SQLite securely stores passwords, history records, and bookmarks locally. |
-| **Google Gemini API** | AI Engine | Powers the logical code walkthroughs using state-of-the-art `gemini-2.5-flash` and `gemini-2.5-pro` reasoning models. |
-| **Pydantic Schema Validation** | Schema Enforcement | Bridges natural language processing with strict data tables. By passing a Pydantic class (`CodeAnalysis`) to the Gemini API, we force the AI to return data in a strict structured JSON format. |
+## 💻 Step 2: The Code Sandbox Workspace
+After logging in, the user is redirected to the main dashboard workspace:
+1. **Select Language**: The user selects the programming language rules from the dropdown list (supporting Python, JavaScript, TypeScript, C++, Java, Go, HTML, CSS, SQL, and plain text).
+2. **Choose AI Model**: The user chooses the Gemini reasoning model (e.g., `gemini-2.5-flash` for high speed, or `gemini-2.5-pro` for complex logic).
+3. **Inputting Code**:
+   * They can type or paste code directly into the premium **Monaco Editor** (which provides syntax highlights).
+   * They can click the **Upload** folder icon to load a local script file directly.
+   * They can click the **Reset** button to wipe the workspace clean.
+4. **Trigger Analysis**: They click the **Explain Code Snippet** button. A loader animation appears while the AI processes the logic.
 
 ---
 
-## 💡 4. PPT Presentation Showcase Tips
+## 📊 Step 3: Interactive Results & Learning Tabs
+Once compiled, the analysis is displayed across five specialized learning tabs:
 
-When presenting this project to reviewers:
-1. **Highlight Schema Enforcement**: Emphasize that you aren't just display generic chat messages. You are using **Pydantic Schemas** to parse natural language AI responses into structured columns and variables.
-2. **Demo the Workflow Screen**: Show off the `/workflow` route inside the application to prove you designed the architecture with clean data boundaries.
-3. **Showcase the Monaco Integration**: Highlight that your app uses VS Code's editor engine, demonstrating your ability to integrate complex third-party tools.
+### 1. 📖 Explanations Tab
+* **Audience Level**: Tells the user if the code is suited for Beginners, Intermediates, or Experts.
+* **Plain English Explanation**: A layperson walkthrough explaining what the script accomplishes without confusing jargon.
+* **Line-by-Line Commentary**: An interactive table that highlights specific sections of code alongside a description of what that line does.
+
+### 2. ⚡ Code Metrics Tab
+* **Big O Analysis**: Displays the worst-case, average-case, and best-case Time Complexity and Space Complexity.
+* **Dry Run Simulator**: A step-by-step execution table showing how the program runs line-by-line and how the values of variables change at each step.
+* **Variables Map**: A list showing all declared variables, their data types, and their exact role in the code.
+
+### 3. 💡 Refactors & Security Tab
+* **Security Scanner**: Highlights potential code smells or vulnerabilities (such as SQL injections, division by zero, or unsafe inputs) with remediation fixes.
+* **Comparative Code Diff**: Shows a side-by-side block comparing their original code against an optimized, refactored clean code version.
+
+### 4. 🎯 Exercises & Quiz Tab
+* **MCQ Quiz**: 10 multiple-choice questions based on the logic of their code. Users can click "Reveal Answer" to see the correct option and explanation.
+* **True/False**: 5 custom questions targeting logic paths.
+* **Fill in the Blanks**: 5 code-completion sentences.
+* **Interactive Coding Tasks**: 3 hands-on programming exercises with starting templates and model solutions.
+
+### 5. 💬 Interview Prep Tab
+* **Mock Technical Q&A**: Lists conceptual questions a tech interviewer might ask based on this code, categorized by Easy, Medium, and Hard, with sample model answers.
+* **Practice Problems**: Links to related coding challenges.
+* **Related Concepts**: Next-step topics suggested for study.
+
+---
+
+## 📁 Step 4: History Management & Exporting
+1. **Copying / Downloading**:
+   * The user can click **Copy JSON** to copy raw structural results.
+   * They can click **Download MD** to download a formatted Markdown document of the AI explanation to study offline.
+2. **Sidebar History**:
+   * All analyzed code runs are saved on the left sidebar.
+   * Users can **Search** previous explanations or **Filter** them by language.
+   * They can click the **Star** icon to mark an item as a favorite.
+   * They can click the **Trash** icon to delete old snippets from their history.
+3. **New Sandbox**: Clicking the **+ New Sandbox** button clears the screen to start explaining a new snippet.
