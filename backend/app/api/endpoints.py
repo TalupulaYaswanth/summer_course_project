@@ -1,3 +1,4 @@
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List, Optional
@@ -43,7 +44,8 @@ def map_explanation_to_out(item: models.Explanation) -> schemas.ExplanationOut:
 
 @router.post("/auth/signup", response_model=schemas.UserOut)
 def signup(user_data: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = db.query(models.User).filter(models.User.email == user_data.email).first()
+    normalized_email = user_data.email.strip().lower()
+    db_user = db.query(models.User).filter(models.User.email == normalized_email).first()
     if db_user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -51,7 +53,7 @@ def signup(user_data: schemas.UserCreate, db: Session = Depends(get_db)):
         )
     
     hashed_pwd = auth.get_password_hash(user_data.password)
-    new_user = models.User(email=user_data.email, hashed_password=hashed_pwd)
+    new_user = models.User(email=normalized_email, hashed_password=hashed_pwd)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -59,7 +61,8 @@ def signup(user_data: schemas.UserCreate, db: Session = Depends(get_db)):
 
 @router.post("/auth/login", response_model=schemas.Token)
 def login(credentials: schemas.UserLogin, db: Session = Depends(get_db)):
-    db_user = db.query(models.User).filter(models.User.email == credentials.email).first()
+    normalized_email = credentials.email.strip().lower()
+    db_user = db.query(models.User).filter(models.User.email == normalized_email).first()
     if not db_user or not auth.verify_password(credentials.password, db_user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
